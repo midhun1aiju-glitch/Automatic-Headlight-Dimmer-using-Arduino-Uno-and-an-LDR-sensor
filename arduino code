@@ -1,0 +1,31 @@
+const int ldrPin = A0;       // LDR connected to A0
+const int relayPin = 8;      // Relay connected to D8
+
+int threshold = 500;         // Adjust based on light intensity
+
+void setup() {
+  pinMode(relayPin, OUTPUT);
+  digitalWrite(relayPin, LOW);
+  Serial.begin(9600);
+}
+
+void loop() {
+
+  int lightValue = analogRead(ldrPin);
+
+  Serial.print("LDR Value: ");
+  Serial.println(lightValue);
+
+  if (lightValue > threshold) {
+    // Bright light detected (Oncoming vehicle)
+    digitalWrite(relayPin, HIGH);   // Switch to LOW beam
+    Serial.println("Low Beam");
+  }
+  else {
+    // Normal darkness
+    digitalWrite(relayPin, LOW);    // High Beam
+    Serial.println("High Beam");
+  }
+
+  delay(200);
+}
